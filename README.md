@@ -39,7 +39,7 @@ type Renderer struct {
 
 tugas property di atas adalah
   * Property `.template` bertugas untuk melakukan rendering dan parsing template
-  * Property `.locatiob` mengarah ke tempat file berada
+  * Property `.location` mengarah ke tempat file berada
   * Property `.debug` mengandung nilai bertipe bool
       - jika nilai bertipe `false`, maka parsing template hanya dilakukan sekali saja saat aplikasi di start
       - jika nilai bertipe `true`, maka parsing template dilakukan tiap pengaksesan rute
