@@ -1,27 +1,34 @@
 # echorendering
-Template rendering dengab Go/Golang Web Framework [echo](https://echo.labstack.com/) ,projek sederhana ini dibuat untuk latihan menggunakan echo
+Template rendering dengab Go/Golang Web Framework [Echo](https://echo.labstack.com/), projek sederhana ini dibuat sebagai latihan menggunakan Echo
 
 
 ![image](https://echo.labstack.com/images/terminal.png)
 
 ## Instalasi Package
 Pada terminal jalankan perintah berikut :
+```Go
+go get github.com/labstack/echo
+```
+atau jika anda meng _clone repository_ 
 ```bash
 go mod tidy
 ```
 ## Penjelasan
-siapkan package yang akan digunakan dan juga siapkan alias untuk ```map[string]interface{}```
+siapkan package yang akan digunakan dan juga siapkan alias untuk `map[string]interface{}`
+
 ```Go
 import (
-  "github.com/labstack/echo"
-  "html/template"
-  "io"
-  "net/http"
+    "github.com/labstack/echo"
+    "html/template"
+    "io"
+    "net/http"
 )
 
-type M map[string]interface{}
+type M map[string]interface{} //atau type M map[string]any
 ```
-lalu buat sebuah struct bernama ```Renderer```
+
+lalu buat sebuah struct bernama `Renderer`
+
 ```Go
 type Renderer struct {
     template *template.Template
@@ -29,14 +36,16 @@ type Renderer struct {
     location string
 }
 ```
+
 tugas property di atas adalah
-  * Property .template bertugas untuk melakukan rendering dan parsing template
-  * Property .locatiob mengarah ke tempat file berada
-  * Property .debug mengandung nilai bertipe bool
+  * Property `.template` bertugas untuk melakukan rendering dan parsing template
+  * Property `.locatiob` mengarah ke tempat file berada
+  * Property `.debug` mengandung nilai bertipe bool
       - jika nilai bertipe `false`, maka parsing template hanya dilakukan sekali saja saat aplikasi di start
       - jika nilai bertipe `true`, maka parsing template dilakukan tiap pengaksesan rute
-
+      
 lalu buat fungsi `NewRenderer()`
+
 ```Go
 func NewRenderer(location string, debug bool) *Renderer {
     tpl := new(Renderer)
@@ -46,12 +55,15 @@ func NewRenderer(location string, debug bool) *Renderer {
     return tpl
 }
 ```
+
 Siapkan juga dua buah method untuk struct renderer, yaitu `.ReloadTemplates()` dan `.Render()`
+
 ```Go
 func (t *Renderer) ReloadTemplates() {
     t.template = template.Must(template.ParseGlob(t.location))
 }
 ```
+
 ```Go
 func (t *Renderer) Render( w io.Writer, name string, data interface{}, c echo.Context, ) error {
     if t.debug {
@@ -60,7 +72,9 @@ func (t *Renderer) Render( w io.Writer, name string, data interface{}, c echo.Co
     return t.template.ExecuteTemplate(w, name, data)
 }
 ```
+
 lalu buat echo router, override property renderer, dan siapkan rute untuk halaman tersebut
+
 ```Go
 func main() {
     e := echo.New()
@@ -74,7 +88,9 @@ func main() {
     e.Logger.Fatal(e.Start(":9000"))
 }
 ```
+
 Buat file index.html
+
 ```HTML
 <!DOCTYPE html>
 <html>
@@ -86,13 +102,16 @@ Buat file index.html
   </body>
 </html>
 ```
+
 lalu jalankan aplikasi dengan
-```bash
+
+```Go
 go run main.go
-
-atau
-
-go build
-./echorendering
 ```
+atau
+```Go
+go build
+./namafile
+```
+
 dan buka localhost:9000 di browser yang anda gunakan
