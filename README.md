@@ -102,8 +102,9 @@ Buat file index.html
   </body>
 </html>
 ```
+## Menjalankan App
 
-lalu jalankan aplikasi dengan
+jalankan aplikasi menggunakan
 
 ```Go
 go run main.go
